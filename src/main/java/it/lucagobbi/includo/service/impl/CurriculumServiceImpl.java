@@ -31,7 +31,7 @@ public class CurriculumServiceImpl implements CurriculumService {
         List<Map<String, ?>> dataMapList = new ArrayList<>();
         Map<String, Object> generalDataMap = new HashMap<>();
         generalDataMap.put("user", getUserDataMap(cv.getUser()));
-        generalDataMap.put("intro", getIntroduction(cv.getIntroduction()));
+        generalDataMap.put("intro", cv.getIntroduction());
         generalDataMap.put("educationItems", getEducationItemsDataMapList(cv.getEducationItems()));
         generalDataMap.put("experienceItems", getExperienceItemsDataMapList(cv.getExperienceItems()));
         generalDataMap.put("skills", getSkillsDataMapList(cv.getSkills()));
@@ -49,10 +49,6 @@ public class CurriculumServiceImpl implements CurriculumService {
         userDataMap.put("phoneNumber", user.getPhoneNumber());
         userDataMap.put("address", user.getAddress());
         return userDataMap;
-    }
-
-    private Map<String, Object> getIntroduction(String intro) {
-        return Map.of("intro", intro);
     }
 
     private List<Map<String, ?>> getEducationItemsDataMapList(List<EducationItem> educationItems) {
