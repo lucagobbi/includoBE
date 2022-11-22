@@ -29,15 +29,13 @@ public class CurriculumServiceImpl implements CurriculumService {
 
     private List<Map<String, ?>> getDataMapList(Curriculum cv) {
         List<Map<String, ?>> dataMapList = new ArrayList<>();
-        dataMapList.addAll(
-                List.of(
-                     getUserDataMap(cv.getUser()),
-                     getIntroduction(cv.getIntroduction()),
-                     getEducationItemsDataMap(cv.getEducationItems()),
-                     getExperienceItemsDataMap(cv.getExperienceItems()),
-                     getContactsDataMap(cv.getContacts())
-                )
-        );
+        Map<String, Object> generalDataMap = new HashMap<>();
+        generalDataMap.put("user", getUserDataMap(cv.getUser()));
+        generalDataMap.put("intro", getIntroduction(cv.getIntroduction()));
+        generalDataMap.put("educationItems", getEducationItemsDataMap(cv.getEducationItems()));
+        generalDataMap.put("experienceItems", getExperienceItemsDataMap(cv.getExperienceItems()));
+        generalDataMap.put("contacts", getContactsDataMap(cv.getContacts()));
+        dataMapList.add(generalDataMap);
         return dataMapList;
     }
 
@@ -56,7 +54,7 @@ public class CurriculumServiceImpl implements CurriculumService {
         return Map.of("intro", intro);
     }
 
-    private Map<String, Object> getEducationItemsDataMap(List<EducationItem> educationItems) {
+    private List<Map<String, ?>> getEducationItemsDataMap(List<EducationItem> educationItems) {
         List<Map<String, ?>> educationItemsDataMapList = new ArrayList<>();
         for(EducationItem educationItem : educationItems) {
             Map<String, Object> educationItemDataMap = fillItemDataMap(educationItem);
@@ -65,16 +63,16 @@ public class CurriculumServiceImpl implements CurriculumService {
             educationItemDataMap.put("graduation", educationItem.getGraduation());
             educationItemsDataMapList.add(educationItemDataMap);
         }
-        return Map.of("educationItems", educationItemsDataMapList);
+        return educationItemsDataMapList;
     }
 
-    private Map<String, Object> getExperienceItemsDataMap(List<ExperienceItem> experienceItems) {
+    private List<Map<String, ?>> getExperienceItemsDataMap(List<ExperienceItem> experienceItems) {
         List<Map<String, ?>> experienceItemsDataMapList = new ArrayList<>();
         for(ExperienceItem experienceItem : experienceItems) {
             Map<String, Object> experienceItemDataMap = fillItemDataMap(experienceItem);
             experienceItemsDataMapList.add(experienceItemDataMap);
         }
-        return Map.of("experienceItems", experienceItemsDataMapList);
+        return experienceItemsDataMapList;
     }
 
     private Map<String, Object> fillItemDataMap(Item item) {
@@ -86,14 +84,14 @@ public class CurriculumServiceImpl implements CurriculumService {
         return itemDataMap;
     }
 
-    private Map<String, Object> getContactsDataMap(List<Contact> contacts) {
+    private List<Map<String, ?>> getContactsDataMap(List<Contact> contacts) {
         List<Map<String, ?>> contactsDataMapList = new ArrayList<>();
         for(Contact contact : contacts) {
             Map<String, Object> contactDataMap = new HashMap<>();
             contactDataMap.put("social", contact.getSocial());
             contactDataMap.put("link", contact.getLink());
         }
-        return Map.of("contacts", contactsDataMapList);
+        return contactsDataMapList;
     }
 
 }
